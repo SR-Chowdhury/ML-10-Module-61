@@ -2,12 +2,13 @@ import React from 'react';
 import { clearLocalStorage } from '../../utilities/addToLocalStorage';
 import './Cart.css';
 
-const Cart = (props) => {
+const Cart = ({cart, handleClearCart, children}) => {
     // Option 1
     // const cart = props.cart; 
 
     // Option 2
-    const {cart} = props;
+    // const {cart} = props;
+
     // console.log(cart);
     let quantity = 0;
     let totalPrice = 0;
@@ -23,8 +24,6 @@ const Cart = (props) => {
     const tax = totalPrice * 7 / 100;
     const grandTotal = totalPrice + shippingCharge + tax;
 
-    const clearStorage = () => clearLocalStorage();
-
     return (
         <div>
             <h1 className="text-center cart-summary-heading">Order Summary</h1>
@@ -36,11 +35,11 @@ const Cart = (props) => {
                 <h2>Grand Total: ${grandTotal.toFixed(2)}</h2>
 
                 <div>
-                    <button onClick={ () => clearStorage()} className='clear-cart-btn'>Clear Cart</button>
+                    <button onClick={handleClearCart} className='clear-cart-btn'>Clear Cart</button>
                 </div>
-                <div>
-                    <button className='review-cart-btn'>Review Order</button>
-                </div>
+                {
+                    children
+                }
             </div>
         </div>
     );

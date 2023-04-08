@@ -28,8 +28,18 @@ const getShoppingCart = () => {
 
 }
 
+const removeItemFromLocalStorage = id => {
+    const shoppingCart = getShoppingCart();
+    if(id in shoppingCart) {
+        delete shoppingCart[id];
+        localStorage.setItem('shopping-cart', JSON.stringify(shoppingCart));
+    }
+
+}
+
 const clearLocalStorage = () => {
     localStorage.removeItem('shopping-cart');
 }
 
-export {addToLocalStorage, getShoppingCart, clearLocalStorage};
+
+export {addToLocalStorage, getShoppingCart, removeItemFromLocalStorage, clearLocalStorage};

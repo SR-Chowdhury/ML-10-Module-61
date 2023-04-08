@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { addToLocalStorage, getShoppingCart } from '../../utilities/addToLocalStorage';
+import { addToLocalStorage, clearLocalStorage, getShoppingCart } from '../../utilities/addToLocalStorage';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
 
 import './Shop.css';
+import { Link } from 'react-router-dom';
 
 const Shop = () => {
     const [products, setProducts] = useState([]);
@@ -15,7 +16,7 @@ const Shop = () => {
             .then(data => setProducts(data))
             .catch(err => console.log(err))
     }
-    , []);
+        , []);
 
     useEffect(() => {
         // console.log(products);
@@ -45,12 +46,17 @@ const Shop = () => {
         }
 
     }
-    , [products]);
+        , [products]);
 
     const handleAddToCart = (product) => {
         const newCart = [...cart, product];
         setCart(newCart);
         addToLocalStorage(product.id);
+    }
+
+    const handleClearCart = () => {
+        setCart([]);
+        clearLocalStorage();
     }
 
     return (
@@ -65,7 +71,13 @@ const Shop = () => {
                 }
             </div>
             <div className="cartContainer">
-                <Cart cart={cart} />
+                <Cart cart={cart} handleClearCart={handleClearCart}>
+                    <Link to={'/orders'}>
+                        <div>
+                            <button className='review-cart-btn'>Review Order</button>
+                        </div>
+                    </Link>
+                </Cart>
             </div>
         </div>
     );

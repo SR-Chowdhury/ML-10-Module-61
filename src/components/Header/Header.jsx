@@ -2,6 +2,7 @@ import React from 'react';
 import './Header.css';
 import logo from '../../assets/images/Logo.svg';
 import './Responsive.css';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
 
@@ -17,16 +18,16 @@ const Header = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav navbar-nav-Ema-john ms-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <a className="nav-link" aria-current="page" href="#">Order</a>
+                            <Link className="nav-link" aria-current="page" to="/">Shop</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Order Review</a>
+                            <Link className="nav-link" to="/orders">Order Review</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Manage Inventory</a>
+                            <Link className="nav-link" to="/inventory">Manage Inventory</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Login</a>
+                            <Link className="nav-link" to="/login">Login</Link>
                         </li>
                     </ul>
                 </div>
