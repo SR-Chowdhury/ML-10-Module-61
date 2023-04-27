@@ -1,18 +1,16 @@
 import React, { useContext, useState } from 'react';
-import './Login.css';
-import { Link, useNavigate } from 'react-router-dom';
+import './Register.css';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
 
-const Login = () => {
+const Register = () => {
 
-    const { signIn } = useContext(AuthContext);
-    const navigate = useNavigate();
+    const {createUser} = useContext(AuthContext);
 
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
     const handleSubmit = (event) => {
-
         event.preventDefault();
 
         setError(null);
@@ -21,25 +19,31 @@ const Login = () => {
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
+        const confirmPassword = form.confirmPassword.value;
 
-        signIn(email, password)
+        if (password !== confirmPassword) {
+            setError('Your password did not match');
+            return;
+        } 
+        else if (password.length < 6) {
+            setError('Password length should be more than 6 characters');
+            return;
+        }
+
+        createUser(email, password)
             .then(result => {
                 const loggedInUser = result.user;
-                // console.log(loggedInUser)
-                setSuccess('Successfully Logged In!');
+                setSuccess('Successfully created user!');
                 form.reset();
-                navigate("/");
             })
             .catch(err => setError(err.message))
 
     }
-
-
     return (
         <div className='container'>
 
             <div className="formContainer shadow-lg">
-                <h1 className='formTitle'>Login</h1>
+                <h1 className='formTitle'>Register</h1>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="">Email</label>
                     <div>
@@ -47,13 +51,17 @@ const Login = () => {
                     </div>
                     <label htmlFor="">Password</label>
                     <div>
-                        <input type="password" className='form-control' name="password" id="password" placeholder='Password' required />
+                        <input type="password" className='form-control' name="password" id="password" placeholder='*************' required />
+                    </div>
+                    <label htmlFor="">Confirm Password</label>
+                    <div>
+                        <input type="password" className='form-control' name="confirmPassword" id="confirm-password" placeholder='*************' required />
                     </div>
                     <div className='submitBtn'>
-                        <button className="form-control" type='submit'>Login</button>
+                        <button className="form-control" type='submit'>Sign up</button>
                     </div>
                 </form>
-                <p className='text-center'><small>New in this site? <Link to="/register">Register</Link></small></p>
+                <p className='text-center'><small>Already have an account? <Link to="/login">Login</Link></small></p>
                 <button className='form-control'>Continue With Google</button>
                 {
                     error && <p className='text-center text-danger'>{error}</p>
@@ -67,4 +75,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
