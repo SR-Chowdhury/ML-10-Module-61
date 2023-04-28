@@ -5,6 +5,7 @@ import { AuthContext } from '../../AuthProvider/AuthProvider';
 
 const Login = () => {
 
+    const [show, setShow] = useState(false);
     const { signIn } = useContext(AuthContext);
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -36,6 +37,10 @@ const Login = () => {
 
     }
 
+    const handleToggle = () => {
+        setShow(!show);
+    }
+
 
     return (
         <div className='container'>
@@ -49,7 +54,10 @@ const Login = () => {
                     </div>
                     <label htmlFor="">Password</label>
                     <div>
-                        <input type="password" className='form-control' name="password" id="password" placeholder='Password' required />
+                        <input type = { show ? "text" : "password"} className='form-control' name="password" id="password" placeholder='Password' required />
+                        <p onClick={handleToggle} style={{cursor: 'pointer'}}>
+                            {show ? <span>Hide Password</span> : <span>Show Password</span>}
+                        </p>
                     </div>
                     <div className='submitBtn'>
                         <button className="form-control" type='submit'>Login</button>
